@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user, :except => [:create]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -16,7 +17,6 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
-    binding.pry
     if @user.save
       @token = Knock::AuthToken.new(payload: @user.to_token_payload).token
     else
