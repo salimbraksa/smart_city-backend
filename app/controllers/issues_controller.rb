@@ -5,12 +5,17 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
+
     city = params[:city]
+    latitude = params[:latitude]
+    longitude = params[:longitude]
+
     if city.present?
       @issues = Issue.all.where(city: city).sort_by(&:score)
-    else
-      @issues = Issue.all.sort_by(&:score)
+    elsif latitude.present?
+      @issues = Issue.near([latitude, longitude], 1)
     end
+
   end
 
   # GET /issues/1
@@ -27,6 +32,8 @@ class IssuesController < ApplicationController
     if !@item.issue.present?
       issue = Issue.new
       issue.city = params[:city]
+      issue.latitude = params[:latitude]
+      issue.longitude = params[:longitude]
       @item.issue = issue
     end
     
@@ -60,6 +67,13 @@ class IssuesController < ApplicationController
       render json: {success: true}, status: :ok
   end
 
+  # GET /issues/around
+  def around
+    latitude = params[:latitude]
+    longitude = params[:longitude]
+    @issues = Issue.near([latitude, longitude], 1)
+  end
+
   # DELETE /issues/1
   # DELETE /issues/1.json
   def destroy
@@ -75,6 +89,10 @@ class IssuesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def issue_item_params
       params.require(:issue).permit(:description, :image, :issue_id)
+    end
+
+    def coordinate_params
+      params.require(:coordinate).permit(:latitude, :longitude)
     end
 
 end

@@ -1,4 +1,8 @@
 json.extract! issue, :id, :city
-json.likes issue.get_likes.size
+json.confirms issue.get_likes.size
 json.samples issue.issue_items
+json.coordinate do
+	json.latitude issue.latitude
+	json.longitude issue.longitude
+end
 

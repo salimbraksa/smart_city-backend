@@ -6,6 +6,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  city       :string
+#  latitude   :float
+#  longitude  :float
 #
 
 require 'test_helper'

@@ -21,7 +21,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'knock'
 gem 'annotate'
 gem 'acts_as_votable', '~> 0.11.1'
-gem 'geokit-rails'
+gem 'geocoder'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
