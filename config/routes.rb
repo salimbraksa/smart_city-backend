@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
 
- 	# Users
+	resources :issues do
+		member do
+			get 'like'
+			get 'unlike'
+		end
+	end
+
  	resources :users
 
   	# Authentication
