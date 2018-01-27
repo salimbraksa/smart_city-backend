@@ -1,11 +1,16 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user
-  before_action :set_issue, only: [:unlike, :like, :show, :update, :destroy]
+  before_action :set_issue, only: [:unconfirm, :confirm, :show, :update, :destroy]
 
   # GET /issues
   # GET /issues.json
   def index
-    @issues = Issue.all.sort_by(&:score)
+    city = params[:city]
+    if city.present?
+      @issues = Issue.all.where(city: city).sort_by(&:score)
+    else
+      @issues = Issue.all.sort_by(&:score)
+    end
   end
 
   # GET /issues/1
@@ -16,13 +21,21 @@ class IssuesController < ApplicationController
   # POST /issues
   # POST /issues.json
   def create
-    @issue = Issue.new(issue_params)
 
-    if @issue.save
-      render :show, status: :created, location: @issue
-    else
-      render json: @issue.errors, status: :unprocessable_entity
+    @item = IssueItem.new(issue_item_params)
+
+    if !@item.issue.present?
+      issue = Issue.new
+      issue.city = params[:city]
+      @item.issue = issue
     end
+    
+    if @item.save
+      render json: @item, status: :created
+    else
+      render json: @item.errors, status: :unprocessable_entity
+    end
+
   end
 
   # PATCH/PUT /issues/1
@@ -36,13 +49,13 @@ class IssuesController < ApplicationController
   end
 
   # GET /issues/:id/like
-  def like
+  def confirm
       @issue.liked_by current_user
       render json: {success: true}, status: :ok
   end
 
   # GET /issues/:id/unlike
-  def unlike
+  def unconfirm
       @issue.unliked_by current_user
       render json: {success: true}, status: :ok
   end
@@ -60,8 +73,8 @@ class IssuesController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def issue_params
-      params.require(:issue).permit(:description)
+    def issue_item_params
+      params.require(:issue).permit(:description, :image, :issue_id)
     end
 
 end

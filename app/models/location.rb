@@ -1,17 +1,12 @@
 # == Schema Information
 #
-# Table name: issues
+# Table name: locations
 #
 #  id         :integer          not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  city       :string
 #
 
-require 'test_helper'
-
-class IssueTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+class Location < ApplicationRecord
+	acts_as_mappable
 end

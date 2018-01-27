@@ -5,12 +5,15 @@
 #  id         :integer          not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  city       :string
 #
 
 class Issue < ApplicationRecord
 	acts_as_votable
 
 	has_many :issue_items
+
+	validates :city, presence: true
 
 	def score
 		if recently_created 

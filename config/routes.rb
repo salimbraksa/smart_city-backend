@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
 	resources :issues do
 		member do
-			get 'like'
-			get 'unlike'
+			get 'confirm'
+			get 'unconfirm'
 		end
 	end
 
