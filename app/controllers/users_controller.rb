@@ -16,6 +16,14 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
+
+    existing_user = User.find_by(email: user_params[:email])
+    if existing_user.present?
+      error = Error.new("AuthDomainError", 2)
+      render json: error.to_json, status: 400
+      return
+    end
+
     @user = User.new(user_params)
     if @user.save
       @token = Knock::AuthToken.new(payload: @user.to_token_payload).token
@@ -46,6 +54,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
+      params.require(:user).permit(:email, :name, :password, :password_confirmation)
     end
 end

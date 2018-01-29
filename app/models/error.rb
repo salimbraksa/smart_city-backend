@@ -10,8 +10,10 @@ class Error
 
 	def to_json options = {}
 		{
-			'domain' => @domain,
-			'code' => @code
+			error: {
+				domain: @domain,
+				code: @code
+			}
 		}
 	end
 

@@ -1,4 +1,5 @@
 class IssuesController < ApplicationController
+  respond_to? :json
   before_action :authenticate_user
   before_action :set_issue, only: [:unconfirm, :confirm, :show, :update, :destroy]
 
@@ -14,7 +15,11 @@ class IssuesController < ApplicationController
       @issues = Issue.all.where(city: city).sort_by(&:score)
     elsif latitude.present?
       @issues = Issue.near([latitude, longitude], 1)
+    else 
+      @issues = Issue.all
     end
+
+    # render json: @issues, status: :ok
 
   end
 

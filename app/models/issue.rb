@@ -26,7 +26,7 @@ class Issue < ApplicationRecord
 	end
 
 	def recently_created
-		(Time.now - created_at) < 2 * 3600
+		(Time.now - created_at) < 3600
 	end
 
 end

@@ -22,6 +22,8 @@ gem 'knock'
 gem 'annotate'
 gem 'acts_as_votable', '~> 0.11.1'
 gem 'geocoder'
+gem 'rack-cors', :require => 'rack/cors'
+gem 'rails-erd', require: false, group: :development
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
