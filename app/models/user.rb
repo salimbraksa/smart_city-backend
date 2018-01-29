@@ -12,6 +12,7 @@
 
 class User < ApplicationRecord
 	has_secure_password
+	acts_as_voter
 	before_save { email.downcase! }
 
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i

@@ -2,6 +2,7 @@ class IssuesController < ApplicationController
   respond_to? :json
   before_action :authenticate_user
   before_action :set_issue, only: [:unconfirm, :confirm, :show, :update, :destroy]
+  before_action :set_user
 
   # GET /issues
   # GET /issues.json
@@ -86,6 +87,11 @@ class IssuesController < ApplicationController
   end
 
   private
+
+    def set_user
+      @user = current_user
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_issue
       @issue = Issue.find(params[:id])

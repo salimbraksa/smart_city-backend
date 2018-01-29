@@ -5,4 +5,5 @@ json.coordinate do
 	json.latitude issue.latitude
 	json.longitude issue.longitude
 end
+json.confirmed @user.liked? issue
 
